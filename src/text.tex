@@ -1,6 +1,5 @@
 \documentclass[conference]{IEEEtran}
-% \IEEEoverridecommandlockouts
-% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
@@ -40,13 +39,13 @@ virtual reality, games, digital filters
 % 1. Contextualizar o problema
 Jogos e aplicações de realidade virtual utilizam \textit{hardware} especial para permitir a interação do usuário através de sensores inerciais - tais quais o acelerômetro, giroscópio e magnetômetro - os quais mensuram orientação, aceleração, taxa angular, campos magnéticos e essencialmente traduzem um evento na realidade do usuário para seu correspondente no cenário virtual.
 
-Estes sensores têm a finalidade de quantificar comportamentos ou características da realidade através de transdutores que convertem a energia de entrada em energia de saída. Nesse processo, registra-se uma amostra do evento de interesse, isto é, processa-se uma série de capturas da realidade de maneira a converter a medida de interesse em um conjunto contínuo de valores. Este processo está suscetível a erros, seja devido à natureza física do transdutor que não traduz fielmente os valores medidos, seja na insuficiência dos dados capturados pela amostragem, ou ainda na discretização dos valores contínuos da realidade. Somadas estas possibilidades, percebe-se que as informações de interesse (velocidade, orientação, localização no GPS, etc.) são suscetíveis a ruídos, isto é, o valor medido não reflete em sua totalidade a verdadeira condição do sistema no momento da medição.
+Estes sensores têm a finalidade de quantificar comportamentos ou características da realidade através de transdutores que convertem a energia de entrada em energia de saída. Neste processo, registra-se uma amostra do evento de interesse, isto é, processa-se uma série de capturas da realidade de maneira a converter a medida de interesse em um conjunto contínuo de valores. Este procedimento, contudo, está suscetível a erros, seja devido à natureza física do transdutor que não traduz fielmente os valores medidos, seja na insuficiência dos dados capturados pela amostragem, ou ainda na discretização dos valores contínuos da realidade. Somadas estas possibilidades, percebe-se que as informações de interesse (velocidade, orientação, localização no GPS, etc.) são suscetíveis a ruídos, isto é, o valor medido não reflete em sua totalidade a verdadeira condição do sistema no momento da medição.
 
 % * Definição introdutória de Filtros
-Desta forma, a fim de garantir o maior nível de aproximação no que se refere à confiabilidade das informações tratadas, os filtros digitais tornam-se ferramentas preciosas as quais visam garantir que somente os dados relevantes sejam considerados. Este trabalho compara a eficiência da aplicação de [quantidade] filtros em uma aplicação de realidade virtual que faz uso do controle do Samsung \textit{Gear VR}.
+Desta forma, a fim de garantir o maior nível de aproximação no que se refere à confiabilidade das informações tratadas, os filtros digitais tornam-se ferramentas preciosas as quais visam garantir que somente os dados relevantes sejam considerados. Este trabalho compara a eficiência da aplicação de [quantidade] filtros em uma aplicação de realidade virtual construída em \textit{Unity} que faz uso do controle do Samsung \textit{Gear VR} com a intenção de determinar as diferenças entre cada um deles.
 
 \begin{comment}
-Entende-se que o filtro de Kalman descreve de uma solução recursiva para o problema de filtragem de dados em um sistema dinâmico linear \cite{WelchBishop}, isto é, trata-se de um sistema capaz de predizer um estado futuro baseado nas últimas informações disponíveis. Descrito como um sistema de recursivo de predição ótima, o filtro de Kalman é efetivamente utilizado em muitas aplicações do mundo real, uma delas foi a própria viagem do homem à Lua, quando necessitava-se estimar as trajetórias para a ida e volta deste satélite \cite{GrewalAndrews}.
+Entende-se que o filtro de Kalman 
 \end{comment}
 
 \begin{comment}
@@ -55,7 +54,6 @@ Embora extremamente eficiente, esta ferramenta carece de explanações mais aces
 
 % * Estrutura do artigo
 A seção \ref{sec:relatedworks} explora outros trabalhos que abordam o uso de filtros e sensores. Uma breve definição dos filtros é revisada na seção \ref{sec:filters}. O controle de realidade virtual da Samsung é descrito na seção \ref{sec:vrcontroller}. A implementação proposta é detalhada na seção \ref{sec:viztool} e seus resultados são discutidos na seção \ref{sec:results}. Por fim, enumeram-se as conclusões e perspectivas de trabalhos futuros na seção \ref{sec:conclusion}
-
 
 \section{Trabalhos Relacionados} \label{sec:relatedworks}
 
@@ -66,13 +64,18 @@ Alguns artigos trabalham com a filtragem de sensores baseados em acelerômetro: 
 
 Em termos de sistemas matemáticos educativos para melhorar a compreensão do filtro: \cite{guyer2008computer} classifica tais sistemas como sistemas de álgebra computacional, softwares instrutivos e sistemas de propósito gerais. Este último, por sua vez, é dividido em ferramenta de propósito de visualização, ferramenta de informação e ferramenta de ensino de conceitos. Nesta classificação, este trabalho tem o propósito de visualização, pois fornece uma compreensão mais ampla de como o sinal ruidoso é filtrado dentro do ambiente de desenvolvimento Unity3D.
 
+\begin{comment}
 \section{Unity3D} \label{sec:unity3d}
 Também alcunhado por \textit{Unity}, trata-se de um ambiente de desenvolvimento (com \textit{engine} gráfica e editor de código) desenvolvido pela \textit{Unity Technologies}. Fornece uma plataforma para a criação de jogos e aplicativos em duas ou três dimensões, além de realidade aumentada e virtual para o público de computadores, dispostivos móveis, consoles, web e sistemas integrados ou HDM (\textit{head-mounted displays}). 
 
 Para os objetivos deste trabalho, escolheu-se o Unity3D devido à facilidade com a qual a ferramenta permite o desenvolvimento, isto é, pode-se focar no objetivo do trabalho em si, não em detalhes de implementação relacionados à itens não relevantes. Além disso, o interesse angariado nos últimos anos garantiu ao Unity3D posição de destaque nas comunidades de desenvolvimento de jogos e aplicativos em VR (\textit{virtual reality}) e AR (\textit{augmented reality}), com mais de 700 milhões de jogadores em jogos criados através da \textit{engine}. Todo este sucesso exige inovação, mas acima de tudo, experiências positivas para os consumidores. O uso do filtro, tema deste artigo, dentre suas diversas aplicações, pode auxiliar neste aspecto, visto que, neste caso, o controle torna-se mais responsivo e aprazível em seu uso. 
+\end{comment}
 
-\section{Filtro de Kalman} \label{sec:kalmanfilter}
-Apresentado no ano de 1960 pelo criador de mesmo nome, o filtro de Kalman é um poderoso conjunto de operações as quais permitem estimar, a partir de dados ruidosos ou de pouca confiabilidade, um estado passado, presente ou futuro \cite{WelchBishop}, desde que estes sejam ruídos gaussianos. É retratado, por conseguinte, como um filtro recursivo ótimo.
+\section{Filtros Digitais} \label{sec:filters}
+Apresentado no ano de 1960 pelo criador de mesmo nome, o filtro de Kalman descreve de uma solução recursiva para o problema de filtragem de dados em um sistema dinâmico linear \cite{WelchBishop}, isto é, trata-se de um sistema capaz de predizer um estado futuro baseado nas últimas informações disponíveis. Descrito como um sistema de recursivo de predição ótima, o filtro de Kalman é efetivamente utilizado em muitas aplicações do mundo real, uma delas foi a própria viagem do homem à Lua, quando necessitava-se estimar as trajetórias para a ida e volta deste satélite \cite{GrewalAndrews}.
+
+\begin{comment}
+é um poderoso conjunto de operações as quais permitem estimar, a partir de dados ruidosos ou de pouca confiabilidade, um estado passado, presente ou futuro \cite{WelchBishop}, desde que estes sejam ruídos gaussianos. É retratado, por conseguinte, como um filtro recursivo ótimo.
 
 No entanto, deve-se compreender primeiramente o que significa, neste contexto, um filtro ótimo e recursivo: o termo filtro descreve um algoritmo de processamento de dados capaz de encontrar a melhor estimativa, ótimo sinaliza que os resultados têm erros minimizados na maneira que veremos adiante, enquanto recursivo indica que não há a necessidade de guardar todas as medições anteriores e reprocessá-las a cada vez que uma nova informação é recebida, pois utiliza-se somente a informação mais recente.
 
@@ -115,6 +118,7 @@ P_k = (I - K_kH)  P^{-}_k
 \end{equation}
 
 $x^{-}_k$ é a estimativa antes do passo de correção, à medida que $P^{-}_k$ é a covariância anterior ao mesmo passo. É ainda neste passo de correção que se encontra o $\hat{x}_k$, que é a estimativa de x no momento k, também encontra-se $P_k$, necessário para a estimativa futura k + 1 juntamente com $\hat{x}_k$. O ganho de Kalman $K_k$ descreve o quanto a equação precisa se ajustar no momento k. Vale ainda dizer que os valores do passo de correção são chamados de \textit{a posteriori} enquanto os valores de predição são \textit{a priori}.
+\end{comment}
 
 % TODO
 
@@ -225,7 +229,7 @@ G.) thanks $\ldots$''. Instead, try ``R. B. G. thanks$\ldots$''. Put sponsor
 acknowledgments in the unnumbered footnote on the first page.
 
 \bibliographystyle{IEEEtran}
-\bibliography{conference_041818}
+\bibliography{references}
 
 % \begin{thebibliography}{00}
 % \bibitem{b1} G. Eason, B. Noble, and I. N. Sneddon, ``On certain integrals of Lipschitz-Hankel type involving products of Bessel functions,'' Phil. Trans. Roy. Soc. London, vol. A247, pp. 529--551, April 1955.
