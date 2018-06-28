@@ -72,62 +72,7 @@ Desta forma, a fim de garantir o maior nível de aproximação no que se refere 
 
 Apresentado no ano de 1960 pelo criador de mesmo nome, o filtro de Kalman descreve de uma solução recursiva para o problema de filtragem de dados em um sistema dinâmico linear \cite{WelchBishop}, isto é, trata-se de um sistema capaz de predizer um estado futuro baseado nas últimas informações disponíveis. Descrito como um sistema de recursivo de predição ótima, o filtro de Kalman é efetivamente utilizado em muitas aplicações do mundo real, uma delas foi a própria viagem do homem à Lua, quando necessitava-se estimar as trajetórias para a ida e volta deste satélite \cite{GrewalAndrews}.
 
-\begin{comment}
-é um poderoso conjunto de operações as quais permitem estimar, a partir de dados ruidosos ou de pouca confiabilidade, um estado passado, presente ou futuro \cite{WelchBishop}, desde que estes sejam ruídos gaussianos. É retratado, por conseguinte, como um filtro recursivo ótimo.
-
-No entanto, deve-se compreender primeiramente o que significa, neste contexto, um filtro ótimo e recursivo: o termo filtro descreve um algoritmo de processamento de dados capaz de encontrar a melhor estimativa, ótimo sinaliza que os resultados têm erros minimizados na maneira que veremos adiante, enquanto recursivo indica que não há a necessidade de guardar todas as medições anteriores e reprocessá-las a cada vez que uma nova informação é recebida, pois utiliza-se somente a informação mais recente.
-
-Cabe ainda esclarecer o filtro de Kalman como uma função de probabilidade que descreve flutuações randômicas em um espaço contínuo. Essencialmente, o filtro de Kalman soluciona o problema de tentar estimar o estado $  x \in \mathbb{R}^{n}$ pela equação de diferença estocástica linear:
-
-\begin{equation}
-x_k = Ax_{k-1} + B\mu_k + w_{k-1}
-\end{equation}
-
-com a medida $ y \in \mathbb{R}^{m}$
-
-\begin{equation}
-y_k = Hx_k + v_k
-\end{equation}
-
-A primeira equação representa que cada $x_k$ é a combinação linear do valor anterior somado ao controle de sinal $_k$ e um ruído de processo. A segunda equação mostra que qualquer valor medido é a combinação linear do valor do sinal $x_k$ a uma medida de ruído da medição.
-
-O filtro aplica ainda dois conjuntos de equações, organizados em dois passos: termos de predição e termos de correção, ambos de natureza recursiva, isto é, há um passo de previsão e um de correção das medidas obtidas. Abaixo seguem os conjuntos de equações, bem como esclarecimentos a respeito das mesmos, consoante \cite{WelchBishop} e \cite{LAARAIEDH}.
-
-Termos de predição podem ser dados por:
-\begin{equation}
-\hat{x}^{-}_k = A\hat{x}_{k-1} +  B\mu_k
-\end{equation}
-
-\begin{equation}
-P^{-}_k = AP_{k-1}A^{t} +  Q
-\end{equation}
-
-Termos de correção podem ser dados por:
-\begin{equation}
-K_k = P^{-}_k H^{T} (H P^{-}_k H^{T} + R)^{-1}
-\end{equation}
-
-\begin{equation}
-\hat{x}_k = \hat{x}^{-}_k + K_k (z_k - H\hat{x}^{-}_k)
-\end{equation}
-
-\begin{equation}
-P_k = (I - K_kH)  P^{-}_k
-\end{equation}
-
-$x^{-}_k$ é a estimativa antes do passo de correção, à medida que $P^{-}_k$ é a covariância anterior ao mesmo passo. É ainda neste passo de correção que se encontra o $\hat{x}_k$, que é a estimativa de x no momento k, também encontra-se $P_k$, necessário para a estimativa futura k + 1 juntamente com $\hat{x}_k$. O ganho de Kalman $K_k$ descreve o quanto a equação precisa se ajustar no momento k. Vale ainda dizer que os valores do passo de correção são chamados de \textit{a posteriori} enquanto os valores de predição são \textit{a priori}.
-\end{comment}
-
-% TODO
-
 \section{Controle para Realidade Virtual} \label{sec:vrcontroller}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=.6\textwidth]{images/gear_controller.jpg}
-\caption{Controle para Realidade Virtual da Samsung.}
-\label{fig:vrcontroller}
-\end{figure}
 
 % * Qual a importância/valor de usar controles?
 Aplicativos de realidade virtual normalmente são executados dentro de óculos especialmente feitos para a renderização de duas telas, uma para cada olho, conferindo assim a ilusão de profundidade em um universo virtual, maximizando a imersão do usuário. Em aplicações de realidade virtual, normalmente o controle posiciona um cursor que representa o foco de interação do usuário.
@@ -136,12 +81,13 @@ Aplicativos de realidade virtual normalmente são executados dentro de óculos e
 Há variações no que se refere às capacidades dos diferentes tipos de controle, o próprio headset, i.e. o equipamento de realidade virtual vestível, possui um controle baseado no giroscópio; existem também controladores que fornecem informações posicionais, permitindo um maior nível de liberdade para o usuário, visto que há a possiblidade de manipulação de diferentes elementos, além da movimentação do próprio personagem do usuário.
 
 % * Descrever controle da Samsung
-A figura \ref{fig:vrcontroller} mostra o controle que acompanha o óculos de realidade virtual \textit{GearVR SM-R324} da Samsung. A \textit{Oculus} é atualmente parceira da Samsung na distribuição de soluções para realidade virtual através de dispositivos móveis e disponibiliza um \textit{SDK} para uso de funcionalidades específicas em aplicações de realidade virtual, dentre elas uma API para captação dos dados de rotação do controle \cite{gearvrinputdocs}.
+A figura \ref{figure:vrcontroller} mostra o controle que acompanha o óculos de realidade virtual \textit{GearVR SM-R324} da Samsung. A \textit{Oculus} é atualmente parceira da Samsung na distribuição de soluções para realidade virtual através de dispositivos móveis e disponibiliza um \textit{SDK} para uso de funcionalidades específicas em aplicações de realidade virtual, dentre elas uma API para captação dos dados de rotação do controle \cite{gearvrinputdocs}.
 
-
-% * Problemas/Imprecisão
-
-
+\begin{figure}[h!]
+\includegraphics[width=\linewidth]{images/gear_controller.jpg}
+\caption{Controle para Realidade Virtual da Samsung.}
+\label{figure:vrcontroller}
+\end{figure}
 
 \section{Ferramenta de Visualização de Filtros} \label{sec:viztool}
 
