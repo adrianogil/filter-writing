@@ -37,20 +37,14 @@ virtual reality, games, digital filters
 %Reescrever mais
 \section{Introdução}
 % 1. Contextualizar o problema
-Jogos e aplicações de realidade virtual utilizam \textit{hardware} especial para permitir a interação do usuário através de sensores inerciais - tais quais o acelerômetro, giroscópio e magnetômetro - os quais mensuram orientação, aceleração, taxa angular, campos magnéticos e essencialmente traduzem um evento na realidade do usuário para seu correspondente no cenário virtual.
+Jogos e aplicações de realidade virtual utilizam \textit{hardware} especial para permitir a interação do usuário através de sensores inerciais - tais quais o acelerômetro, giroscópio e magnetômetro - os quais mensuram orientação, aceleração, taxa angular, campos magnéticos e essencialmente traduzem um evento na realidade do usuário para seu correspondente no cenário virtual. Contudo, as informações de interesse (velocidade, orientação, localização no GPS, etc.) são suscetíveis a ruídos, isto é, o valor medido não reflete em sua totalidade a verdadeira condição do sistema no momento da medição.
 
+\begin{comment}
 Estes sensores têm a finalidade de quantificar comportamentos ou características da realidade através de transdutores que convertem a energia de entrada em energia de saída. Neste processo, registra-se uma amostra do evento de interesse, isto é, processa-se uma série de capturas da realidade de maneira a converter a medida de interesse em um conjunto contínuo de valores. Este procedimento, contudo, está suscetível a erros, seja devido à natureza física do transdutor que não traduz fielmente os valores medidos, seja na insuficiência dos dados capturados pela amostragem, ou ainda na discretização dos valores contínuos da realidade. Somadas estas possibilidades, percebe-se que as informações de interesse (velocidade, orientação, localização no GPS, etc.) são suscetíveis a ruídos, isto é, o valor medido não reflete em sua totalidade a verdadeira condição do sistema no momento da medição.
+\end{comment}
 
 % * Definição introdutória de Filtros
-Desta forma, a fim de garantir o maior nível de aproximação no que se refere à confiabilidade das informações tratadas, os filtros digitais tornam-se ferramentas preciosas as quais visam garantir que somente os dados relevantes sejam considerados. Este trabalho compara a eficiência da aplicação de [quantidade] filtros em uma aplicação de realidade virtual construída em \textit{Unity} que faz uso do controle do Samsung \textit{Gear VR} com a intenção de determinar as diferenças entre cada um deles.
-
-\begin{comment}
-Entende-se que o filtro de Kalman 
-\end{comment}
-
-\begin{comment}
-Embora extremamente eficiente, esta ferramenta carece de explanações mais acessíveis quanto ao seu uso e benefícios dentro do ambiente de desenvolvimento Unity3D. Portanto, tendo em vista esclarecer o emprego do filtro de Kalman, objetiva-se aqui exemplificar seu emprego em um \textit{ joystick} numa aplicação de realidade virtual. O ruído está presente nas leituras acerca do posicionamento deste controlador, portanto intenta-se a melhoria no reconhecimento deste sinal.
-\end{comment}
+Portanto, este trabalho compara a eficiência da aplicação de [quantidade] filtros em uma aplicação de realidade virtual construída em \textit{Unity} que faz uso do controle do Samsung \textit{Gear VR} com a intenção de determinar as diferenças entre cada um deles.
 
 % * Estrutura do artigo
 A seção \ref{sec:relatedworks} explora outros trabalhos que abordam o uso de filtros e sensores. Uma breve definição dos filtros é revisada na seção \ref{sec:filters}. O controle de realidade virtual da Samsung é descrito na seção \ref{sec:vrcontroller}. A implementação proposta é detalhada na seção \ref{sec:viztool} e seus resultados são discutidos na seção \ref{sec:results}. Por fim, enumeram-se as conclusões e perspectivas de trabalhos futuros na seção \ref{sec:conclusion}
@@ -62,7 +56,7 @@ Entre alguns exemplos de emprego do Filtro de Kalman: \cite{demkowiczkalman} dem
 
 Alguns artigos trabalham com a filtragem de sensores baseados em acelerômetro: \cite{schlomer2008gesture} usa o modelo oculto de Markov para reconhecimento de gestos do usuários feitos em um \textit{Wiimote}, o controle do \textit{Wii}, a filtragem ocorre por meio de filtros simples para remover pontos que não são suficientemente significantes. \cite{shiratori2008accelerometer} utiliza múltiplos controles de \textit{Wii} para criar animações procedurais, as informações do acelerômetro são analisadas e aplica-se o filtro de Kalman para remover o ruído  gerado pelo movimento.
 
-Em termos de sistemas matemáticos educativos para melhorar a compreensão do filtro: \cite{guyer2008computer} classifica tais sistemas como sistemas de álgebra computacional, softwares instrutivos e sistemas de propósito gerais. Este último, por sua vez, é dividido em ferramenta de propósito de visualização, ferramenta de informação e ferramenta de ensino de conceitos. Nesta classificação, este trabalho tem o propósito de visualização, pois fornece uma compreensão mais ampla de como o sinal ruidoso é filtrado dentro do ambiente de desenvolvimento Unity3D.
+Apesar destes estudos, \cite{VRDataGlove} é um trabalho em progresso que reporta um estudo de usabilidade que visa determinar a efetividade entre dois tipos de entrada para realidade virtual: controle e gestos de mão. 
 
 \begin{comment}
 \section{Unity3D} \label{sec:unity3d}
@@ -71,7 +65,11 @@ Também alcunhado por \textit{Unity}, trata-se de um ambiente de desenvolvimento
 Para os objetivos deste trabalho, escolheu-se o Unity3D devido à facilidade com a qual a ferramenta permite o desenvolvimento, isto é, pode-se focar no objetivo do trabalho em si, não em detalhes de implementação relacionados à itens não relevantes. Além disso, o interesse angariado nos últimos anos garantiu ao Unity3D posição de destaque nas comunidades de desenvolvimento de jogos e aplicativos em VR (\textit{virtual reality}) e AR (\textit{augmented reality}), com mais de 700 milhões de jogadores em jogos criados através da \textit{engine}. Todo este sucesso exige inovação, mas acima de tudo, experiências positivas para os consumidores. O uso do filtro, tema deste artigo, dentre suas diversas aplicações, pode auxiliar neste aspecto, visto que, neste caso, o controle torna-se mais responsivo e aprazível em seu uso. 
 \end{comment}
 
-\section{Filtros Digitais} \label{sec:filters}
+\section{Filtros} \label{sec:filters}
+Sensores têm a finalidade de quantificar comportamentos ou características da realidade através de transdutores que convertem a energia de entrada em energia de saída. Neste processo, registra-se uma amostra do evento de interesse, isto é, processa-se uma série de capturas da realidade de maneira a converter a medida de interesse em um conjunto contínuo de valores. Este procedimento, contudo, está suscetível a erros, seja devido à natureza física do transdutor que não traduz fielmente os valores medidos, seja na insuficiência dos dados capturados pela amostragem, ou ainda na discretização dos valores contínuos da realidade. Somadas estas possibilidades, percebe-se que as informações de interesse (velocidade, orientação, localização no GPS, etc.) são suscetíveis a ruídos, isto é, o valor medido não reflete em sua totalidade a verdadeira condição do sistema no momento da medição.
+
+Desta forma, a fim de garantir o maior nível de aproximação no que se refere à confiabilidade das informações tratadas, os filtros digitais tornam-se ferramentas preciosas as quais visam garantir que somente os dados relevantes sejam considerados.
+
 Apresentado no ano de 1960 pelo criador de mesmo nome, o filtro de Kalman descreve de uma solução recursiva para o problema de filtragem de dados em um sistema dinâmico linear \cite{WelchBishop}, isto é, trata-se de um sistema capaz de predizer um estado futuro baseado nas últimas informações disponíveis. Descrito como um sistema de recursivo de predição ótima, o filtro de Kalman é efetivamente utilizado em muitas aplicações do mundo real, uma delas foi a própria viagem do homem à Lua, quando necessitava-se estimar as trajetórias para a ida e volta deste satélite \cite{GrewalAndrews}.
 
 \begin{comment}
