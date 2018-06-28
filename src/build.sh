@@ -1,9 +1,10 @@
 rm *.aux *.log, *.blg, *.bbl
 
-tex_file=conference_041818
+tex_file=text
+bib_file=references
 
 pdflatex $tex_file.tex
-bibtex $tex_file
+bibtex $bib_file
 pdflatex $tex_file.tex
-bibtex $tex_file
+bibtex $bib_file
 pdflatex $tex_file.tex
