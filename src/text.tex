@@ -15,7 +15,7 @@
 %     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
-\title{Análise Comparativa da Aplicação de Filtros Digitais no Controle Gear VR}
+\title{Análise Comparativa da Filtragem da Orientação do Controle Gear VR}
 %\title{Visualização do Filtro de Kalman na Estabilização de Controle para Realidade Virtual}
 
 \author{\IEEEauthorblockN{Thiago Figueira\IEEEauthorrefmark{1},
@@ -37,17 +37,13 @@ virtual reality, games, digital filters
 %Reescrever mais
 \section{Introdução}
 % 1. Contextualizar o problema
-Jogos e aplicações de realidade virtual utilizam \textit{hardware} especial para permitir a interação do usuário através de sensores inerciais - tais quais o acelerômetro, giroscópio e magnetômetro - os quais mensuram orientação, aceleração, taxa angular, campos magnéticos e essencialmente traduzem um evento na realidade do usuário para seu correspondente no cenário virtual. Contudo, as informações de interesse (velocidade, orientação, localização no GPS, etc.) são suscetíveis a ruídos, isto é, o valor medido não reflete em sua totalidade a verdadeira condição do sistema no momento da medição.
-
-\begin{comment}
-Estes sensores têm a finalidade de quantificar comportamentos ou características da realidade através de transdutores que convertem a energia de entrada em energia de saída. Neste processo, registra-se uma amostra do evento de interesse, isto é, processa-se uma série de capturas da realidade de maneira a converter a medida de interesse em um conjunto contínuo de valores. Este procedimento, contudo, está suscetível a erros, seja devido à natureza física do transdutor que não traduz fielmente os valores medidos, seja na insuficiência dos dados capturados pela amostragem, ou ainda na discretização dos valores contínuos da realidade. Somadas estas possibilidades, percebe-se que as informações de interesse (velocidade, orientação, localização no GPS, etc.) são suscetíveis a ruídos, isto é, o valor medido não reflete em sua totalidade a verdadeira condição do sistema no momento da medição.
-\end{comment}
+Jogos e aplicações de realidade virtual utilizam \textit{hardware} especial para permitir a interação do usuário através de sensores inerciais - tais quais o acelerômetro, giroscópio e magnetômetro - os quais mensuram orientação, aceleração, taxa angular, campos magnéticos e essencialmente traduzem um evento na realidade do usuário para seu correspondente no cenário virtual. Contudo, as informações de interesse são suscetíveis a ruídos, isto é, o valor avaliado não reflete plenamente a legítima condição do sistema no momento da medição.
 
 % * Definição introdutória de Filtros
-Portanto, este trabalho compara a eficiência da aplicação de [quantidade] filtros em uma aplicação de realidade virtual construída em \textit{Unity} que faz uso do controle do Samsung \textit{Gear VR} com a intenção de determinar as diferenças entre cada um deles.
+Portanto, este trabalho compara a acurácia entre os filtros de kalman, passa-baixa e adaptativo em uma aplicação de realidade virtual construída em \textit{Unity} que faz uso do controle do Samsung \textit{Gear VR} com a intenção de determinar as diferenças entre cada um deles e apontar o filtro ideal para uso em sistemas VR (\textit{virtual reality}, realidade virtual).
 
 % * Estrutura do artigo
-A seção \ref{sec:relatedworks} explora outros trabalhos que abordam o uso de filtros e sensores. Uma breve definição dos filtros é revisada na seção \ref{sec:filters}. O controle de realidade virtual da Samsung é descrito na seção \ref{sec:vrcontroller}. A implementação proposta é detalhada na seção \ref{sec:viztool} e seus resultados são discutidos na seção \ref{sec:results}. Por fim, enumeram-se as conclusões e perspectivas de trabalhos futuros na seção \ref{sec:conclusion}
+A seção \ref{sec:relatedworks} explora outros trabalhos que abordam o uso de filtros e sensores. Uma breve definição dos filtros é revisada na seção \ref{sec:filters}. O controle de realidade virtual da Samsung é descrito na seção \ref{sec:vrcontroller}. A implementação proposta é detalhada na seção \ref{sec:viztool} e seus resultados são discutidos na seção \ref{sec:results}. Por fim, enumeram-se as conclusões e perspectivas de trabalhos futuros na seção \ref{sec:conclusion}.
 
 \section{Trabalhos Relacionados} \label{sec:relatedworks}
 
@@ -61,16 +57,16 @@ Apesar destes estudos, \cite{VRDataGlove} é um trabalho em progresso que report
 \begin{comment}
 \section{Unity3D} \label{sec:unity3d}
 Também alcunhado por \textit{Unity}, trata-se de um ambiente de desenvolvimento (com \textit{engine} gráfica e editor de código) desenvolvido pela \textit{Unity Technologies}. Fornece uma plataforma para a criação de jogos e aplicativos em duas ou três dimensões, além de realidade aumentada e virtual para o público de computadores, dispostivos móveis, consoles, web e sistemas integrados ou HDM (\textit{head-mounted displays}). 
-
-Para os objetivos deste trabalho, escolheu-se o Unity3D devido à facilidade com a qual a ferramenta permite o desenvolvimento, isto é, pode-se focar no objetivo do trabalho em si, não em detalhes de implementação relacionados à itens não relevantes. Além disso, o interesse angariado nos últimos anos garantiu ao Unity3D posição de destaque nas comunidades de desenvolvimento de jogos e aplicativos em VR (\textit{virtual reality}) e AR (\textit{augmented reality}), com mais de 700 milhões de jogadores em jogos criados através da \textit{engine}. Todo este sucesso exige inovação, mas acima de tudo, experiências positivas para os consumidores. O uso do filtro, tema deste artigo, dentre suas diversas aplicações, pode auxiliar neste aspecto, visto que, neste caso, o controle torna-se mais responsivo e aprazível em seu uso. 
 \end{comment}
 
-\section{Filtros} \label{sec:filters}
+\section{Filtragem da Orientação do Controle} \label{sec:filters}
 Sensores têm a finalidade de quantificar comportamentos ou características da realidade através de transdutores que convertem a energia de entrada em energia de saída. Neste processo, registra-se uma amostra do evento de interesse, isto é, processa-se uma série de capturas da realidade de maneira a converter a medida de interesse em um conjunto contínuo de valores. Este procedimento, contudo, está suscetível a erros, seja devido à natureza física do transdutor que não traduz fielmente os valores medidos, seja na insuficiência dos dados capturados pela amostragem, ou ainda na discretização dos valores contínuos da realidade. Somadas estas possibilidades, percebe-se que as informações de interesse (velocidade, orientação, localização no GPS, etc.) são suscetíveis a ruídos, isto é, o valor medido não reflete em sua totalidade a verdadeira condição do sistema no momento da medição.
 
-Desta forma, a fim de garantir o maior nível de aproximação no que se refere à confiabilidade das informações tratadas, os filtros digitais tornam-se ferramentas preciosas as quais visam garantir que somente os dados relevantes sejam considerados.
+Desta forma, a fim de garantir o maior nível de aproximação no que se refere à confiabilidade das informações tratadas, os filtros tornam-se ferramentas preciosas as quais visam garantir que os dados relevantes sejam observados. Este trabalho apresenta o uso do controle de \textit{Gear VR} sem filtragem e com filtragem através três filtros: kalman, passa-baixa e adaptativo, a fim de determinar qual deles é mais apropriado para uso, tendo em vista que fatores como responsividade e precisão são cruciais para a imersão em uma aplicação de realidade virtual \cite{VRDataGlove}.
 
 Apresentado no ano de 1960 pelo criador de mesmo nome, o filtro de Kalman descreve de uma solução recursiva para o problema de filtragem de dados em um sistema dinâmico linear \cite{WelchBishop}, isto é, trata-se de um sistema capaz de predizer um estado futuro baseado nas últimas informações disponíveis. Descrito como um sistema de recursivo de predição ótima, o filtro de Kalman é efetivamente utilizado em muitas aplicações do mundo real, uma delas foi a própria viagem do homem à Lua, quando necessitava-se estimar as trajetórias para a ida e volta deste satélite \cite{GrewalAndrews}.
+
+O filtro passa-baixa permite a passagem de baixas frequências, mas suaviza a amplitude de frequências acima da frequência de corte.
 
 \section{Controle para Realidade Virtual} \label{sec:vrcontroller}
 
@@ -94,19 +90,17 @@ A figura \ref{figure:vrcontroller} mostra o controle que acompanha o óculos de 
 % Proposal
 Este artigo se propõe a implementar uma ferramenta para a visualização do emprego do filtro de Kalman na estabilização de um controle de realidade virtual. O uso do filtro é motivado pela necessidade de remoção dos ruídos de leitura e obtenção de um controle mais estável para o usuário. A contribuição para o desenvolvedor é a capacidade de visualizar o efeitos do ruído e compreender como este pode ser amenizado pelo uso do filtro de Kalman; para o usuário final, a criação de um componente para controle de realidade virtual que possibilite movimentos mais precisos.
 
-
 % As a didatic tool
 Dado o objetivo de remover ruídos de um conjunto determinado de sinais, é de grande interesse para o desenvolvedor assimilar de que forma este ruído potencialmente afeta uma aplicação em realidade virtual: principalmente através da geração de um cursor mais trêmulo, menos responsivo ou confiável, dificultando, portanto, a experiência do usuário.
-
 
 % Describe Unity implementation - Noise visualization
 Para visualizar o ruído, utilizou-se elementos de partículas ou \textit{ParticleSystem} para renderizar pontos onde o cursor deveria estar levando em conta as entradas ruidosas tais como recebidas pelo controle. As partículas geradas foram configuradas para ter uma cor destoante, uma tonalidade de vermelho indica a entrada real obtida pelo controle e, ao longo do tempo, reduz-se a luminosidade das partículas de modo a adicionar uma informação temporal à visualização gerada. Assim, pontos vermelhos mais vivos indicam os dados mais recentes recebidos pelo controle enquanto pontos mais fracos representam posições mais antigas.
 
 Afim de comparar a entrada ruidosa e o resultado filtrado, as posições filtradas pelo filtro de Kalman foram destacadas em azul, através de \textit{TrailRenderer} que permite renderizar o caminho percorrido pelo cursor ao longo da execução da aplicação.
 
-\begin{figure}[ht]
+\begin{figure}[h!]
 \centering
-\includegraphics[width=.5\textwidth]{images/controller_input.png}
+\includegraphics[width=\linewidth]{images/controller_input.png}
 \caption{Componente Unity para configuração do controle da Samsung.}
 \label{fig:controllercomponent}
 \end{figure}
@@ -114,16 +108,14 @@ Afim de comparar a entrada ruidosa e o resultado filtrado, as posições filtrad
 % Describe Unity implementation - GearVRInput component
 Implementamos um componente de gerenciamento de entradas do usuário chamado \textit{GazeInputModule}, permitindo mudar o cursor de acordo com a posição da cabeça do usuário fornecida pelo \textit{headset GearVR} ou pela rotação do controle.
 
-
 % Describe interaction with controller
 O controle de realidade virtual da Samsung, tal como descrito na seção \ref{sec:vrcontroller}, possibilita obter dados de rotação em tempo real \cite{gearvrinputdocs} na forma de um \textit{quaternion} \cite{quaternionhamilton1844ii} que representa a orientação atual do dispositivo. \textit{Quaternions} são um sistema numérico que estendem os números complexos e são utilizados por muitas \textit{APIs} gráficas para representar valores de rotação. O \textit{Software Development Kit} SDK da \textit{Oculus} permite obter a rotação em coordenadas angulares (ângulos de Euler). Para cada valor angular é calculado um ponto do cursor que intercepta uma esfera de tamanho unitário e um raio partindo da representação virtual do controle.
 
-
 \section{Resultados} \label{sec:results}
 
-\begin{figure}[ht]
+\begin{figure}[h!]
 \centering
-\includegraphics[width=.5\textwidth]{images/sphere.png}
+\includegraphics[width=\linewidth]{images/sphere.png}
 \caption{Esfera invertida na cena da Unity.}
 \label{fig:invertsphere}
 \end{figure}
@@ -132,18 +124,18 @@ A implementação em Unity3D foi executada em um aparelho Samsung S8 acoplado ao
 
 Toda aplicação \textit{GearVR} distribuída na \textit{Oculus Store} \cite{gearvrstore} pode ser executada nos modelos de celulares Samsung mais avançados, quando acoplado a um óculos \textit{GearVR}. A qualquer momento durante a execução da aplicação, é possível acessar um menu de opções que permite registrar \textit{screenshots} ou gravar vídeos da experiência vivida pelo usuário no mundo virtual estabelecido pela aplicação.
 
-\begin{figure}[ht]
+\begin{figure}[h!]
 \centering
-\includegraphics[width=.5\textwidth]{images/image_01.png}
+\includegraphics[width=\linewidth]{images/image_01.png}
 \caption{Filtragem do cursor de VR. Amostras ruidosas em vermelho e valor filtrado em azul.}
 \label{fig:filter01}
 \end{figure}
 
 A figura \ref{fig:filter01} mostra um \textit{screenshot} da aplicação em Realidade Virtual com a filtragem de cursor ativa. O caminho do cursor é definido pela rotação atual do controle do \textit{GearVR}. A posição do cursor é calculada na intersecção de uma esfera de tamanho unitário e a direção atual do controle.
 
-\begin{figure}[ht]
+\begin{figure}[h!]
 \centering
-\includegraphics[width=.5\textwidth]{images/image_02.png}
+\includegraphics[width=\linewidth]{images/image_02.png}
 \caption{Filtragem do cursor de VR. Amostras ruidosas em vermelho e valor filtrado em azul.}
 \label{fig:filter02}
 \end{figure}
@@ -165,12 +157,13 @@ Em trabalhos futuros propõe-se estender a aplicação do filtro à problemas de
 
 Fora do campo da aplicações digitais, há muitos exemplos possíveis para a aplicação:  um pequeno robô de jardim que precisa saber sua verdadeira localização a fim de evitar quedas; um mapa de navegação para carros que, dentro de um túnel, precise cumprir sua função com precisão para guiar o motorista; ou ainda, a necessidade de conhecer-se a temperatura de um foguete cujo alto aquecimento impeça a medição direta através de um sensor. Se analisadas com cadência, as situações ilustradas possuem em comum a existência de informações que são passíveis de ruídos ou imprecisão os quais podem ser minimizados com o uso do filtro de Kalman.
 
+\begin{comment}
 \section*{Acknowledgment}
-
 The preferred spelling of the word ``acknowledgment'' in America is without 
 an ``e'' after the ``g''. Avoid the stilted expression ``one of us (R. B. 
 G.) thanks $\ldots$''. Instead, try ``R. B. G. thanks$\ldots$''. Put sponsor 
 acknowledgments in the unnumbered footnote on the first page.
+\end{comment}
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
