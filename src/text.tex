@@ -15,7 +15,8 @@
 %     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
-\title{Análise Comparativa da Filtragem da Orientação do Controle Gear VR}
+\title{Aplicação de Filtros para Estabilização de Controle VR}
+%\title{Análise Comparativa da Filtragem da Orientação do Controle Gear VR}
 %\title{Visualização do Filtro de Kalman na Estabilização de Controle para Realidade Virtual}
 
 \author{\IEEEauthorblockN{Thiago Figueira\IEEEauthorrefmark{1},
@@ -27,11 +28,11 @@ Manaus -- AM -- Brazil}}
 \maketitle
 
 \begin{abstract}
-Kalman filter is a digital filter capable of predicting, with high precision, past, present and future states given a linear dynamic system with Gaussian noise. Even though an effective tool, Kalman filter is not a built-in implementation in Unity3D development environment. Therefore, this paper intends to implement  a visualization tool in which the Kalman filter is applied to a noisy virtual reality device joystick. It's also an objective to explain how the filter works as well as present the results of its use.
+Virtual reality applications make use of multiple sensors in order to translate actions performed by the user on the real world into the virtual environment. The joystick is the main form of interaction and as a sensor, is also subject to noises thus worsening the user experience. This paper compares three different filters applied to a noisy VR controller in a application in Unity3D seeking improvements to user perception and responsiveness.
 \end{abstract}
 
 \begin{IEEEkeywords}
-virtual reality, games, digital filters
+virtual reality, games, filters
 \end{IEEEkeywords}
 
 %Reescrever mais
